@@ -1,0 +1,294 @@
+<!-- ===== МОДАЛЬНОЕ ОКНО ЗАЯВКИ ===== -->
+<div id="applicationModal" class="modal-overlay">
+  <div class="modal-container">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-header">
+      <i class="fas fa-paper-plane"></i>
+      <h2>Заявка в медиа-команду</h2>
+      <p>Заполните форму, и мы свяжемся с вами в Discord</p>
+    </div>
+    <form id="applicationForm" class="modal-form">
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> Ваш никнейм в игре</label>
+        <input type="text" id="nickname" placeholder="Например: John_Doe" required />
+      </div>
+      <div class="form-group">
+        <label><i class="fab fa-discord"></i> Discord (username#0000)</label>
+        <input type="text" id="discord" placeholder="Например: user#1234" required />
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-globe"></i> Платформа</label>
+        <select id="platform" required>
+          <option value="">Выберите платформу</option>
+          <option value="youtube">YouTube</option>
+          <option value="youtube-shorts">YouTube Shorts</option>
+          <option value="twitch">Twitch</option>
+          <option value="tiktok">TikTok</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-link"></i> Ссылка на канал/профиль</label>
+        <input type="url" id="profileLink" placeholder="https://..." required />
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-comment"></i> Коротко о себе</label>
+        <textarea id="about" rows="3" placeholder="Напишите пару слов о себе и вашем опыте"></textarea>
+      </div>
+      <button type="submit" class="btn-submit"><i class="fas fa-check"></i> Отправить заявку</button>
+    </form>
+    <div id="formSuccess" class="form-success" style="display: none;">
+      <i class="fas fa-check-circle"></i>
+      <h3>Заявка отправлена!</h3>
+      <p>Скоро с вами свяжутся в Discord.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-container {
+  background: #14141e;
+  border: 1px solid rgba(255, 107, 53, 0.25);
+  border-radius: 8px;
+  max-width: 540px;
+  width: 100%;
+  padding: 32px 36px;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+  animation: slideUp 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  line-height: 1;
+}
+.modal-close:hover {
+  color: #ff6b35;
+  transform: rotate(90deg);
+}
+.modal-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.modal-header i {
+  font-size: 2.4rem;
+  color: #ff6b35;
+}
+.modal-header h2 {
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.8rem;
+  color: #fff;
+  margin: 6px 0 4px;
+  letter-spacing: 0.5px;
+}
+.modal-header p {
+  color: #888;
+  font-size: 0.95rem;
+}
+.modal-form .form-group {
+  margin-bottom: 18px;
+}
+.modal-form label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+.modal-form label i {
+  color: #ff6b35;
+  width: 22px;
+}
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  color: #eee;
+  font-size: 1rem;
+  transition: 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+}
+.modal-form input::placeholder,
+.modal-form textarea::placeholder {
+  color: #555;
+}
+.modal-form select {
+  appearance: none;
+  cursor: pointer;
+  color: #eee;
+}
+.modal-form select option {
+  background: #1a1a2a;
+  color: #eee;
+}
+.btn-submit {
+  width: 100%;
+  padding: 16px;
+  background: #ff6b35;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: 'Russo One', sans-serif;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+.btn-submit:hover {
+  background: #ff7a4a;
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(255, 107, 53, 0.25);
+}
+.form-success {
+  text-align: center;
+  padding: 24px 0 12px;
+}
+.form-success i {
+  font-size: 3.6rem;
+  color: #4caf50;
+}
+.form-success h3 {
+  color: #fff;
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.5rem;
+  margin: 8px 0 4px;
+}
+.form-success p {
+  color: #888;
+  font-size: 1rem;
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 600px) {
+  .modal-container {
+    padding: 24px 20px;
+    margin: 0 12px;
+  }
+  .modal-header h2 { font-size: 1.5rem; }
+  .modal-form input, .modal-form select, .modal-form textarea {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+}
+</style>
+
+<script>
+  // ===== МОДАЛЬНОЕ ОКНО =====
+  (function initModal() {
+    const modal = document.getElementById('applicationModal');
+    const openBtn = document.getElementById('applyBtn');
+    const closeBtn = document.getElementById('modalClose');
+    const form = document.getElementById('applicationForm');
+    const successDiv = document.getElementById('formSuccess');
+
+    // Открыть
+    openBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Закрыть
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      // Сброс формы при закрытии
+      form.style.display = 'block';
+      successDiv.style.display = 'none';
+      form.reset();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Отправка формы
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Сбор данных
+      const nickname = document.getElementById('nickname').value.trim();
+      const discord = document.getElementById('discord').value.trim();
+      const platform = document.getElementById('platform').value;
+      const profileLink = document.getElementById('profileLink').value.trim();
+      const about = document.getElementById('about').value.trim();
+
+      // Простая валидация
+      if (!nickname || !discord || !platform || !profileLink) {
+        alert('Пожалуйста, заполните все обязательные поля.');
+        return;
+      }
+
+      // Проверка Discord формата (простая)
+      if (!discord.includes('#') || discord.split('#').length !== 2) {
+        alert('Введите корректный Discord в формате username#0000');
+        return;
+      }
+
+      // Имитация отправки
+      console.log('📩 Заявка отправлена:', { nickname, discord, platform, profileLink, about });
+
+      // Показать успех
+      form.style.display = 'none';
+      successDiv.style.display = 'block';
+
+      // Опционально: реальная отправка (заглушка)
+      // fetch('/api/apply', { method: 'POST', body: JSON.stringify({...}) })
+    });
+  })();
+</script>
